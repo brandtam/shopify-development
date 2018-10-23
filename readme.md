@@ -3,13 +3,14 @@ ___
 ## Theme Architecture Basics
 - Create reusable components as snippets, then use Sections to pass data to snippet, e.g. {% include 'hero', hero_title: section.settings.title %}
 - Create module and/or helper snippets to create consistency and speed up development, e.g. /src/snippets/helper-image.liquid or /src/snippets/module-image-with-text.liquid
-
-## Sections & Blocks
 ___
+## Sections & Blocks
+
 #### Sections
 - Use Sections to custom settings for specific templates and areas whenever possible for maximum flexibility and theme management consistency.
 - Avoid full page sections, prefer multiple sections to allow for multiple block instances.
 - When creating Sections use the module snippets for the presentation and pass the section and/or block variables to the included module.
+
 #### Blocks
 - Use Blocks to add multiple copies of a single item such as images and image settings for an image slider.
 - Alternatively use Blocks to add multiple types of content to a template.
@@ -39,22 +40,67 @@ ___
 {% endfor %}
 ```
 
-## Modules & Helpers
+- Blocks can be used to represent different resources using handle matching where useful.
+  - Since the blocks will be used to represent data for a specific page handle you won't have access to another layer of blocks and all settings for the page handle will need to exist in that single handle.
+
+###### Example of block level handle matching to share one page template across multiple pages.
+```ruby
+{% assign page_handle = page.handle %}
+{% assign resource = false %}
+{% assign prev_resource_index = section.blocks | size | minus: 1 %}
+{% assign next_resource_index = 0 %}
+{% assign prev_resource = blank %}
+{% assign next_resource = blank %}
+
+{% for block in section.blocks %}
+  {% assign resource_handle = block.settings.resource_handle %}
+  {% if resource_handle == page_handle %}
+    {% assign resource_index = forloop.index | minus: 1 %}
+    {% unless forloop.last %}
+      {% assign next_resource_index = resource_index | plus: 1 %}
+    {% endunless %}
+    {% assign resource = block %}
+    {% break %}
+  {% else %}
+    {% assign prev_resource_index = forloop.index | minus: 1 %}
+  {% endif %}
+{% endfor %}
+
+{% assign prev_resource = section.blocks[prev_resource_index] %}
+{% assign next_resource = section.blocks[next_resource_index] %}
+
+{% if resource %}
+  {% include "module-resource-feature",
+    block_id: resource.id,
+    resource_enable: resource.settings.resource_enable,
+    resource_image: resource.settings.resource_image,
+    resource_text: resource.settings.resource_text
+  %}
+{% endif %}
+
+
+```
 ___
+## Modules & Helpers
+
 #### Modules
 - Modules are snippets that consume variables and output a complete section of content to the view layer.
 - preface module files with `module-` to make them uniform and easy to find.
+
 #### Helpers
 - Helpers are snippets that consume variables and output a portion of a single bit of content, e.g. an image, or video that can be included as part of a larger section.
 - preface helper files with `helper-` to make them uniform and easy to find.
+___
 
 ## Theme Settings
-___
+
 ##### Incomplete (Theme settings best practices)
 - Template level data. Data is shared among all resources that use the same template.
 -
-## Metafields
+
 ___
+## Metafields
+
 ##### Incomplete (Metafields best practices)
 - Resource level Data (product, variant, customer, page, etc)
 - You need an app that acts on the API in order to manage metafields.
@@ -62,9 +108,9 @@ ___
     - Namespace - A container to isolate groups of metafields together.
     - Key - The name of the metafield.
     - Value - The value of the metafield that will be accessable via the API or theme objects.
-
-## Images
 ___
+## Images
+
 ##### Incomplete (Theme images best practices)
 - Shopify has a maximum of 4472 x 4472px resolution.
 - Encourage users to resize images to appropriate sizes prior to uploading.
@@ -73,9 +119,9 @@ ___
 - Use srcset when possible.
 - https://www.shopify.com/partners/blog/img-url-filter
 -
-
-## Liquid Syntax
 ___
+## Liquid Syntax
+
 - Use soft-tabs with two spaces. Spaces are the only way to ensure code renders the same in any environment.
 - Put one space after the opening Liquid markup `{{ ` and `{% `, as well as one space before the closing markup ` }}` and ` %}}`.
 - Put one space before and after each filter statement, e.g. `{{ 5 | plus: 1 | divided_by: 2 }}`.
