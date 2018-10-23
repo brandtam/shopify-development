@@ -3,6 +3,27 @@ ___
 ## Theme Architecture Basics
 - Create reusable components as snippets, then use Sections to pass data to snippet, e.g. {% include 'hero', hero_title: section.settings.title %}
 - Create module and/or helper snippets to create consistency and speed up development, e.g. /src/snippets/helper-image.liquid or /src/snippets/module-image-with-text.liquid
+
+___
+## Templates
+
+#### Alternate Templates
+- You can create multiple versions of a template for each resource available (product, page, collection, blog, etc)
+- In the admin you select which template the current resource should use with the Template dropdown.
+- You can also control which template is used by adding a url parameter.
+
+###### Example of a url that would show an alternate template.
+- Create a product and choose the `product` template. (this will show the selected product using the `product.liquid` template when visiting that product page)
+- If you create an alternate template named `product.alternate.liquid` you could show the alternate template using the view parameter in the url.
+
+```
+Default Template: (src/templates/product.liquid)
+http://store.myshopify.com/products/great-product
+
+Alternate Template: (src/templates/product.alternate.liquid)
+http://store.myshopify.com/products/great-product?view=alternate
+```
+
 ___
 ## Sections & Blocks
 
