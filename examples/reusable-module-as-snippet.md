@@ -2,8 +2,11 @@
 
 ___
 ## The Explanation
-- Create a snippet that will display content passed to it to apply a more DRY approach to theme development.
-
+- Create a snippet that will display content passed to it using the Shopify [include](https://help.shopify.com/en/themes/liquid/tags/theme-tags#include) theme tag.
+- Show example of how to use the module in multiple ways.
+  - From a template, passing data directly in line.
+  - From a section, passing data from section inputs.
+  - From a section, passing data from a block level input.
 
 ___
 ## Example Files
