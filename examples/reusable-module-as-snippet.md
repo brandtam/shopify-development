@@ -1,4 +1,4 @@
-# Example: Re-usable Modules
+# Example: Re-usable Modules in Shopify Theme
 
 ___
 ## The Explanation
@@ -29,17 +29,14 @@ namespace above to prevent cross assignment. {% endcomment %}
 
   {% if mod_text_block_enable %}
   <div class="grid--full">
-    <div class="grid__item one-whole article sell-text">
-      <div class="grid__item large--one-half sell-text-image lazyload"
-        data-bgset="{% include 'bgset', image: mod_text_block_image %}"
-        data-sizes="auto"
-        data-parent-fit="cover"
+    <div class="grid__item one-whole">
+      <div class="grid__item large--one-half text-block-image"
         style="background-image: url({{ mod_text_block_image | img_url: '1200x' }});">
       </div>
-      <div class="grid__item large--one-half sell-textarea">
+      <div class="grid__item large--one-half text-block-textarea">
         <h1>{{ mod_text_block_title }}</h1>
         <div class="rte">
-          <p>{{ mod_text_block_textarea | strip_html | truncatewords: 100 }}</p>
+          <p>{{ mod_text_block_textarea }}</p>
         </div>
       </div>
     </div>
@@ -96,8 +93,7 @@ namespace above to prevent cross assignment. {% endcomment %}
       {
         "label": "Image",
         "id": "image",
-        "type": "image_picker",
-        "info": "800 x 600px .png recommended"
+        "type": "image_picker"
       },
       {
         "label": "Title",
