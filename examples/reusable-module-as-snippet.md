@@ -15,28 +15,31 @@ ___
 ```liquid
 {% comment %} Namespace: mod_text_block_ {% endcomment %}
 
+{% comment %} All variables defined will be prepended with the
+namespace above to prevent cross assignment. {% endcomment %}
+
 {% comment %} Check if enabled {% endcomment %}
 {% if text_block_enable %}
 
   {% comment %} Initialize variables {% endcomment %}
-  {% assign text_block_enable = text_block_enable %}
-  {% assign text_block_image = text_block_image %}
-  {% assign text_block_title = text_block_title %}
-  {% assign text_block_textarea = text_block_textarea %}
+  {% assign mod_text_block_enable = text_block_enable %}
+  {% assign mod_text_block_image = text_block_image %}
+  {% assign mod_text_block_title = text_block_title %}
+  {% assign mod_text_block_textarea = text_block_textarea %}
 
-  {% if text_block_enable %}
+  {% if mod_text_block_enable %}
   <div class="grid--full">
     <div class="grid__item one-whole article sell-text">
       <div class="grid__item large--one-half sell-text-image lazyload"
-        data-bgset="{% include 'bgset', image: text_block_image %}"
+        data-bgset="{% include 'bgset', image: mod_text_block_image %}"
         data-sizes="auto"
         data-parent-fit="cover"
-        style="background-image: url({{ text_block_image | img_url: '1200x' }});">
+        style="background-image: url({{ mod_text_block_image | img_url: '1200x' }});">
       </div>
       <div class="grid__item large--one-half sell-textarea">
-        <h1>{{ text_block_title }}</h1>
+        <h1>{{ mod_text_block_title }}</h1>
         <div class="rte">
-          <p>{{ text_block_textarea | strip_html | truncatewords: 100 }}</p>
+          <p>{{ mod_text_block_textarea | strip_html | truncatewords: 100 }}</p>
         </div>
       </div>
     </div>
@@ -44,10 +47,10 @@ ___
   {% endif %}
 
   {% comment %} Clear variables to prevent polution. {% endcomment %}
-  {% assign text_block_enable = blank %}
-  {% assign text_block_image = blank %}
-  {% assign text_block_title = blank %}
-  {% assign text_block_textarea = blank %}
+  {% assign mod_text_block_enable = blank %}
+  {% assign mod_text_block_image = blank %}
+  {% assign mod_text_block_title = blank %}
+  {% assign mod_text_block_textarea = blank %}
 
 {% endif %}
 
